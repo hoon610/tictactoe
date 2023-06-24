@@ -1,3 +1,6 @@
+*{
+    background-color: rgb(27, 27, 27);
+}
 #boardDisplay{
     display: grid;
     grid-template-columns: 50px 50px 50px;
@@ -8,3 +11,8 @@
     width: 30px;
     height: 30px;
     background-color: aqua;
+}
+
+button{
+    background-color: white;
+}

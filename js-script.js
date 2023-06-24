@@ -13,12 +13,17 @@ const gameboard = (() =>{
     
         if (playerTurn === 0){
             for (let i = 0; i < space.length; i++) {
-                space[i].addEventListener("click", handleXClick);
+                if (boardState[i] !== 0) {}
+                else{
+                space[i].addEventListener("click", handleXClick);}
             }
         }
         else{
             for (let i = 0; i < space.length; i++) {
-                space[i].addEventListener("click", handlePClick);
+                if (boardState[i] !== 0) {}
+                else{
+                space[i].addEventListener("click", handlePClick);}
+                
             }
         }
     }
@@ -26,13 +31,13 @@ const gameboard = (() =>{
     const handleXClick = (event) => {
         gameboard.addX(event.target.getAttribute('id'));
         updateBoard();
-        gameController.nextTurn();
+        gameController.checkGameState();        
     }
     
     const handlePClick = (event) => {
         gameboard.addP(event.target.getAttribute('id'));
         updateBoard();
-        gameController.nextTurn();
+        gameController.checkGameState();
     }
 
     const updateBoard = () => {
@@ -77,13 +82,14 @@ const gameboard = (() =>{
 
 
 const gameController = (() =>{
-    
+    let counter
     const pvpGame = () => {
         gameboard.newBoardState();
         gameboard.updateBoard();
         let status = 0;
         playerTurn = 0;
         gameboard.setButtons();
+        counter = 1;
     }
     const nextTurn = () => {
         
@@ -95,11 +101,46 @@ const gameController = (() =>{
         }
         gameboard.setButtons();
     }
+    const checkGameState = () => {
+        counter += 1;
+        if (
+            (boardState[0]+boardState[1]+boardState[2] ===3||
+            boardState[3]+boardState[4]+boardState[5] ===3||
+            boardState[6]+boardState[7]+boardState[8] ===3||
+            boardState[0]+boardState[3]+boardState[6] ===3||
+            boardState[1]+boardState[4]+boardState[7] ===3||
+            boardState[2]+boardState[5]+boardState[8] ===3||
+            boardState[0]+boardState[4]+boardState[8] ===3||
+            boardState[2]+boardState[4]+boardState[6] ===3)
+        ){
+            console.log("X wins");
+        }
+
+        else if (
+            (boardState[0]+boardState[1]+boardState[2] ===-3||
+                boardState[3]+boardState[4]+boardState[5] ===-3||
+                boardState[6]+boardState[7]+boardState[8] ===-3||
+                boardState[0]+boardState[3]+boardState[6] ===-3||
+                boardState[1]+boardState[4]+boardState[7] ===-3||
+                boardState[2]+boardState[5]+boardState[8] ===-3||
+                boardState[0]+boardState[4]+boardState[8] ===-3||
+                boardState[2]+boardState[4]+boardState[6] ===-3)
+            === -3){
+            console.log("O wins");
+        }
+        else if (counter === 10) {
+            console.log("draw");
+        }
+        else { 
+            gameController.nextTurn(); 
+        }
+    }
 
 
-    return{
+    return {
         pvpGame,
-        nextTurn
+        nextTurn,
+        checkGameState
     }
 })();
 
