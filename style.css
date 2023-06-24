@@ -1,0 +1,10 @@
+#boardDisplay{
+    display: grid;
+    grid-template-columns: 50px 50px 50px;
+    grid-template-rows: auto;
+}
+
+.space{
+    width: 30px;
+    height: 30px;
+    background-color: aqua;
